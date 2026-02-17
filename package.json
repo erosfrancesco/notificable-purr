@@ -1,0 +1,19 @@
+{
+  "name": "notificable-purr",
+  "version": "0.1.0",
+  "description": "Full-stack webapp with React, TypeScript, Rust, and TanStack Query",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "dev:backend": "cd backend && cargo run",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && cargo build --release",
+    "build:frontend": "cd frontend && npm run build",
+    "install:all": "npm install && cd frontend && npm install",
+    "preview": "cd frontend && npm run preview"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
