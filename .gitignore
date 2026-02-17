@@ -8,6 +8,8 @@ frontend/.env.*.local
 backend/target/
 backend/Cargo.lock
 
+node_modules/
+
 # IDE
 .vscode/
 .idea/
