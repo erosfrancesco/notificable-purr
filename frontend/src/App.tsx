@@ -1,6 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import './App.css'
+import React, { useState } from 'react'
+import { Header } from './layout/Header'
+import { Card } from './layout/Card'
+import { Text, TextError, TextHeading, TextSubheading, TextSuccess } from './components/Text'
+import { List, ListItem } from './layout/List'
+import { Page } from './layout/Page'
+import { Input } from './components/Input'
 
 interface ApiResponse {
   message: string
@@ -30,56 +35,55 @@ function App() {
     enabled: name.length > 0,
   })
 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>🐱 Notificable Purr</h1>
-        <p>React + TypeScript + Rust + TanStack Query</p>
-      </header>
+    <Page Header={<Header>
+      <TextHeading>🐱 Notificable Purr</TextHeading>
+      <Text>React + TypeScript + Rust + TanStack Query</Text>
+    </Header>}>
+      <Card>
+        <TextSubheading>Backend Status</TextSubheading>
+        {healthLoading ? (
+          <Text>Checking backend...</Text>
+        ) : healthData ? (
+          <TextSuccess>✅ {healthData.message}</TextSuccess>
+        ) : (
+          <TextError>❌ Backend is not responding</TextError>
+        )}
+      </Card>
 
-      <main>
-        <section className="section">
-          <h2>Backend Status</h2>
-          {healthLoading ? (
-            <p>Checking backend...</p>
-          ) : healthData ? (
-            <p className="success">✅ {healthData.message}</p>
-          ) : (
-            <p className="error">❌ Backend is not responding</p>
-          )}
-        </section>
+      <Card>
+        <TextSubheading>Personalized Greeting</TextSubheading>
+        <div className="input-group">
 
-        <section className="section">
-          <h2>Personalized Greeting</h2>
-          <div className="input-group">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-            />
-          </div>
-          {greetingLoading ? (
-            <p>Loading...</p>
-          ) : greetingData ? (
-            <p className="success">👋 {greetingData.message}</p>
-          ) : (
-            <p>Enter a name to get a greeting</p>
-          )}
-        </section>
+          <Input type="text"
+            value={name}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+            placeholder="Enter your name"
+          />
 
-        <section className="section">
-          <h2>Technology Stack</h2>
-          <ul>
-            <li>⚛️ React 18 with TypeScript</li>
-            <li>🚀 TanStack Query for data fetching</li>
-            <li>🦀 Rust backend with Actix-web</li>
-            <li>⚡ Vite for fast development</li>
-            <li>🎨 CORS enabled for seamless integration</li>
-          </ul>
-        </section>
-      </main>
-    </div>
+
+        </div>
+        {greetingLoading ? (
+          <Text>Loading...</Text>
+        ) : greetingData ? (
+          <Text className="text-green">👋 {greetingData.message}</Text>
+        ) : (
+          <Text>Enter a name to get a greeting</Text>
+        )}
+      </Card>
+
+      <Card>
+        <TextSubheading>Technology Stack</TextSubheading>
+        <List className="list-disc list-inside text-start">
+          <ListItem>⚛️ React 18 with TypeScript</ListItem>
+          <ListItem>🚀 TanStack Query for data fetching</ListItem>
+          <ListItem>🦀 Rust backend with Actix-web</ListItem>
+          <ListItem>⚡ Vite for fast development</ListItem>
+          <ListItem>🎨 CORS enabled for seamless integration</ListItem>
+        </List>
+      </Card>
+    </Page>
   )
 }
 

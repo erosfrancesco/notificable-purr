@@ -1,53 +1,19 @@
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+
+
+@layer components {
   :root {
     color-scheme: light dark;
     @apply text-white duration-300;
   }
-
-  a {
-    @apply font-medium text-blue-400 hover:text-blue-300 duration-200;
-  }
-
-  button {
-    @apply rounded-lg border border-transparent px-6 py-2.5 text-base font-medium font-inherit bg-gray-900 cursor-pointer hover:border-blue-400 duration-200;
-  }
-
-  button:focus,
-  button:focus-visible {
-    @apply outline outline-4 outline-blue-400;
-  }
-
-  header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-  }
-
-  header p {
-    margin: 0.5rem 0 0 0;
-    font-size: 1.1rem;
-    opacity: 0.9;
-  }
-
-  section h2 {
-    margin-top: 0;
-    color: #667eea;
-    border-bottom: 2px solid #667eea;
-    padding-bottom: 1rem;
-  }
-
-  section p {
-    margin: 0.5rem 0 0 0;
-    font-size: 1.1rem;
-    opacity: 0.9;
-  }
 }
 
 @media (prefers-color-scheme: light) {
-  @layer base {
+  @layer components {
     :root {
       @apply text-gray-900;
     }
