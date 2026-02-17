@@ -9,6 +9,7 @@ backend/target/
 backend/Cargo.lock
 
 node_modules/
+target/
 
 # IDE
 .vscode/
