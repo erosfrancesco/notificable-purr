@@ -12,9 +12,10 @@ import { Button } from './components/Button'
 
 
 function App() {
-  const { data: healthData, isLoading: healthLoading } = useHealthStatus();
-  const { data: greetingData, isLoading: greetingLoading, name, setName,  } = useGreeting('World');
+  const { data: healthData, isLoading: healthLoading, isError } = useHealthStatus();
+  const { data: greetingData, isLoading: greetingLoading, name, setName, } = useGreeting('World');
 
+  const greetingIsDisabled = greetingLoading || isError || healthLoading;
 
   return (
     <Page Header={<Header>
@@ -34,12 +35,15 @@ function App() {
 
       <Card>
         <TextSubheading>Personalized Greeting</TextSubheading>
+
         <Input type="text"
           value={name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
           placeholder="Enter your name"
+          disabled={greetingIsDisabled}
         />
-        <Button onClick={console.log}>Send</Button>
+        <Button onClick={console.log} disabled={greetingIsDisabled}>Send</Button>
+
         <br />
         {greetingLoading ? (
           <Text>Loading...</Text>
