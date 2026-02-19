@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from './layout/Header'
 import { Card } from './layout/Card'
 import { Text, TextError, TextHeading, TextSubheading, TextSuccess } from './components/Text'
@@ -8,12 +8,26 @@ import { Input } from './components/Input'
 import { useHealthStatus } from './hooks/useHealthStatus'
 import { useGreeting } from './hooks/useGreeting'
 import { Button } from './components/Button'
+import { showBrowserNotification, useNotifications } from './notifications'
 
 
 
 function App() {
   const { data: healthData, isLoading: healthLoading, isError } = useHealthStatus();
   const { data: greetingData, isLoading: greetingLoading, name, setName, } = useGreeting('World');
+
+  const [message, setMessage] = useState<string>(''); // For notification input
+  const { push, history } = useNotifications();
+
+  useEffect(() => {
+    console.log('Notification history:', history);
+    showBrowserNotification('Welcome!', { toast: { title: 'Welcome!', body: 'This is a simple notification from your React app.' } });
+  }, [history]);
+
+  const sendNotification = async (msg: string) => {
+    await push('custom_notification', { banner: { title: 'Notification', body: msg } });
+    setMessage('');
+  }
 
   const greetingIsDisabled = greetingLoading || isError || healthLoading;
 
@@ -42,9 +56,9 @@ function App() {
           placeholder="Enter your name"
           disabled={greetingIsDisabled}
         />
-        <Button onClick={console.log} disabled={greetingIsDisabled}>Send</Button>
 
         <br />
+
         {greetingLoading ? (
           <Text>Loading...</Text>
         ) : greetingData ? (
@@ -52,6 +66,18 @@ function App() {
         ) : (
           <Text>Enter a name to get a greeting</Text>
         )}
+      </Card>
+
+      <Card>
+        <TextSubheading>Personalized Greeting</TextSubheading>
+
+        <Input type="text"
+          value={message}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
+          placeholder="Enter notification message"
+        />
+
+        <Button onClick={() => sendNotification(message)} disabled={!message}>Send Notification</Button>
       </Card>
 
       <Card>
