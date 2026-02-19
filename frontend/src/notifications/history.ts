@@ -1,6 +1,6 @@
 export type NotificationHistory = {
     key: string;
-    data: Notification | { banner: Notification['data']["banner"]; };
+    data: Notification;
     time: number;
 }
 
@@ -51,8 +51,8 @@ function saveHistory(history: NotificationHistory[]) {
  * @param {string} [data.banner.body] - Banner body text
  * @param {string} [data.banner.icon] - Path to icon
  */
-export function addToHistory(key: string, data: { banner: Notification['data']["banner"]; }) {
-    if (!data.banner) return;
+export function addToHistory(key: string, data: Notification) {
+    // if (!data.banner) return;
 
     const history = getStoredHistory();
 

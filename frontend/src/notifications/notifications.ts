@@ -3,7 +3,7 @@ import { addToHistory } from './history';
 
 
 export type PushNotificationOptions = NotificationOptions & { save?: boolean; time?: number | null };
-type BrowserNotification = Pick<Notification['data'], 'toast'>;
+export type BrowserNotification = Pick<Notification['data'], 'toast'>;
 
 
 // In-memory scheduled notification timeouts

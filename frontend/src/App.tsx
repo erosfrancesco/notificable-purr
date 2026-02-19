@@ -8,24 +8,19 @@ import { Input } from './components/Input'
 import { useHealthStatus } from './hooks/useHealthStatus'
 import { useGreeting } from './hooks/useGreeting'
 import { Button } from './components/Button'
-import { showBrowserNotification, useNotifications } from './notifications'
+import { useNotifications } from './notifications'
 
 
 
 function App() {
   const { data: healthData, isLoading: healthLoading, isError } = useHealthStatus();
   const { data: greetingData, isLoading: greetingLoading, name, setName, } = useGreeting('World');
+  const { clear } = useNotifications();
 
   const [message, setMessage] = useState<string>(''); // For notification input
-  const { push, history } = useNotifications();
-
-  useEffect(() => {
-    console.log('Notification history:', history);
-    showBrowserNotification('Welcome!', { toast: { title: 'Welcome!', body: 'This is a simple notification from your React app.' } });
-  }, [history]);
 
   const sendNotification = async (msg: string) => {
-    await push('custom_notification', { banner: { title: 'Notification', body: msg } });
+    // await push('custom_notification', { banner: { title: 'Notification', body: msg } });
     setMessage('');
   }
 
@@ -78,6 +73,7 @@ function App() {
         />
 
         <Button onClick={() => sendNotification(message)} disabled={!message}>Send Notification</Button>
+        <Button onClick={() => clear('custom_notification')}>Clear Notifications</Button>
       </Card>
 
       <Card>

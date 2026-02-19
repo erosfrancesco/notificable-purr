@@ -9,6 +9,7 @@ import {
 import { clearNotification, pushNotification, PushNotificationOptions, scheduleNotification } from './notifications';
 
 export * from './notifications';
+export type { NotificationHistory } from './history';
 
 
 /**
@@ -30,7 +31,7 @@ export function useNotifications(): {
 
     push: (key: string, data: Notification['data'], options?: PushNotificationOptions | null) => Promise<void>;
     clear: (key: string) => Promise<void>;
-    show: (title: string, body: any, action?: any) => Promise<void>;
+    // show: (title: string, body: any, action?: any) => Promise<void>;
     schedule: (title: string, body: string, delayMs: number, action?: any) => Promise<void>;
     markAsRead: () => Promise<void>;
     refresh: () => Promise<void>;
@@ -51,9 +52,8 @@ export function useNotifications(): {
             ]);
 
             setHistory(historyData.map((n) => {
-                const data = (n.data as { banner: any })?.banner || {};
                 return {
-                    ...data,
+                    ...n,
                     time: n?.time
                 };
             }));
@@ -96,6 +96,7 @@ export function useNotifications(): {
         }
     }, [refresh]);
 
+    /*
     // Show a simple notification
     const show = useCallback(async (title: any, body: any, action = null) => {
         try {
@@ -106,6 +107,7 @@ export function useNotifications(): {
             console.error('Failed to show notification:', error);
         }
     }, [refresh]);
+    /** */
 
     // Schedule a notification
     const schedule = useCallback(async (title: string, body: string, delayMs: number, action = null) => {
@@ -139,7 +141,7 @@ export function useNotifications(): {
         // Methods
         push,
         clear,
-        show,
+        // show,
         schedule,
         markAsRead,
         refresh
